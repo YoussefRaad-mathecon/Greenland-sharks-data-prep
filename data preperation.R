@@ -70,7 +70,7 @@ df30 <- df30[!is.na(df30$TOD),]
 
 
 
-#Estimate initial parameters for all 3 states using hierarchical clustering
+#Estimate initial parameters for all 3 states using hierarchical clustering (this method resultet in the best likelihood)
 init_params30 <- initz(na.omit(df30$Depth), ncomp = 3, init.method = "hclust")
 init_params17 <- initz(na.omit(df17$Depth), ncomp = 3, init.method = "hclust")
 init_params6 <- initz(na.omit(df6$Depth), ncomp = 3, init.method = "hclust")
