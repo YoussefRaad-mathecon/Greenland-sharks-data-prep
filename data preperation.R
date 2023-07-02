@@ -52,25 +52,36 @@ df30 <- data.frame(
   Temperature = data30$Temperature
 )
 
-#time of day calculation. The number should range smoothly from 0 : ~23.99999. 
-#If it's anything other than that then it's not calculated right. 
-df30$TOD <- as.numeric(format(df30$time, format = "%H")) + as.numeric(format(df30$time, format = "%M")) / 60 + 
-  as.numeric(format(df30$time, format = "%S")) / 60 / 60
 
-df17$TOD <- as.numeric(format(df17$time, format = "%H")) + as.numeric(format(df17$time, format = "%M")) / 60 + 
-  as.numeric(format(df17$time, format = "%S")) / 60 / 60
+#time of day calculation. The number should range smoothly from 0 : ~23.99999. If it's anything other than that then it's not calculated right. 
+df30$TOD <- as.numeric(format(df30$time, format = "%H")) + as.numeric(format(df30$time, format = "%M")) / 60 + as.numeric(format(df30$time, format = "%S")) / 60 / 60
+
+df17$TOD <- as.numeric(format(df17$time, format = "%H")) + as.numeric(format(df17$time, format = "%M")) / 60 + as.numeric(format(df17$time, format = "%S")) / 60 / 60
 
 Sys.setlocale("LC_TIME", "Danish_Denmark.utf8")
 
-df6$TOD <- as.numeric(format(df6$time, format = "%H")) + as.numeric(format(df6$time, format = "%M")) / 60 +
-  as.numeric(format(df6$time, format = "%S")) / 60 / 60
+df6$TOD <- as.numeric(format(df6$time, format = "%H")) + as.numeric(format(df6$time, format = "%M")) / 60 + as.numeric(format(df6$time, format = "%S")) / 60 / 60
 
 Sys.setlocale("LC_TIME", "English_United States.utf8")
 df30 <- df30[!is.na(df30$TOD),]
 
 
+#time of year calculation. The number should range smoothly from 0 : ~11.99999. If it's anything other than that then it's not calculated right. 
+df30$TOY <- as.numeric(month(df30$time))+as.numeric(day(df30$time))/31
 
-#Estimate initial parameters for all 3 states using hierarchical clustering (this method resultet in the best likelihood)
+df17$TOY <- as.numeric(month(df17$time))+as.numeric(day(df17$time))/31
+
+Sys.setlocale("LC_TIME", "Danish_Denmark.utf8")
+
+df6$TOY <- as.numeric(month(df6$time))+as.numeric(day(df6$time))/31
+
+Sys.setlocale("LC_TIME", "English_United States.utf8")
+df30 <- df30[!is.na(df30$TOY),]
+
+
+
+
+#Estimate initial parameters for all 3 states using hierarchical clustering
 init_params30 <- initz(na.omit(df30$Depth), ncomp = 3, init.method = "hclust")
 init_params17 <- initz(na.omit(df17$Depth), ncomp = 3, init.method = "hclust")
 init_params6 <- initz(na.omit(df6$Depth), ncomp = 3, init.method = "hclust")
